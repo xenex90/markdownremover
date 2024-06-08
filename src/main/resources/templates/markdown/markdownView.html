@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Markdown to Plain Text</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            width: 80%;
+        }
+        .panel {
+            flex: 1;
+            margin: 10px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            white-space: pre-wrap;
+        }
+        .panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="panel" id="markdown-panel" th:text="${markdownText}">
+        <!-- 여기에 마크다운 텍스트가 들어갑니다 -->
+    </div>
+    <div class="panel" id="plain-text-panel" th:text="${plainText}">
+        <!-- 여기에 마크다운이 제거된 텍스트가 들어갑니다 -->
+    </div>
+</div>
+</body>
+</html>
