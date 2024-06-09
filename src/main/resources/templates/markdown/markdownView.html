@@ -29,14 +29,42 @@
         }
     </style>
 </head>
-<body>
+<body><div style="text-align: center">
+<h1>꼭 제거 된 텍스트를 다시 한번 확인 해 주세요</h1>
 <div class="container">
+    <h3>기존 마크다운 텍스트</h3>
     <div class="panel" id="markdown-panel" th:text="${markdownText}">
         <!-- 여기에 마크다운 텍스트가 들어갑니다 -->
     </div>
+    <h3> 다운 제거 된 텍스트</h3>
     <div class="panel" id="plain-text-panel" th:text="${plainText}">
         <!-- 여기에 마크다운이 제거된 텍스트가 들어갑니다 -->
     </div>
+    <button onclick="copyContent()">복사</button>
+
+</div>
+<a th:href="@{/}">되 돌아가기</a>
 </div>
 </body>
+<script>
+    function copyContent() {
+        // content 요소를 가져옵니다.
+        const content = document.getElementById('plain-text-panel').innerText;
+
+        // 임시 textarea 요소를 생성합니다.
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = content;
+        document.body.appendChild(tempTextArea);
+
+        // 텍스트를 선택하고 복사합니다.
+        tempTextArea.select();
+        document.execCommand('copy');
+
+        // 임시 textarea 요소를 제거합니다.
+        document.body.removeChild(tempTextArea);
+
+        // 복사 완료 메시지를 출력합니다.
+        alert('내용이 복사되었습니다.');
+    }
+</script>
 </html>
