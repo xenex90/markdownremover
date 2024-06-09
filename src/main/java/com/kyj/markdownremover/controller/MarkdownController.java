@@ -24,7 +24,9 @@ public class MarkdownController {
     }
 
     @PostMapping("/remove")
-    public static String removeMarkdown(@RequestParam("markdownText") String markdownText) {
+
+    public static String removeMarkdown(Model model, @RequestParam("markdownText") String markdownText) {
+
         logger.info("---- markdownText 텍스트 ----");
         logger.info(markdownText);
         logger.info("---- markdownText 텍스트 ---- 끝");
@@ -40,7 +42,11 @@ public class MarkdownController {
         logger.info(String.valueOf(plainText));
         logger.info("---- 플레인 텍스트 ---- 끝");
 
-        return "/index";
+        model.addAttribute("markdownText",markdownText);
+        model.addAttribute("plainText",plainText);
+
+
+        return "markdown/markdownView";
     }
 
     private static String removeMarkdownFromLine(String line) {
