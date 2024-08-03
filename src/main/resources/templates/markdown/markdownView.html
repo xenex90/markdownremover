@@ -11,10 +11,12 @@
             height: 100vh;
             font-family: Arial, sans-serif;
         }
+
         .container {
             display: flex;
             width: 80%;
         }
+
         .panel {
             flex: 1;
             margin: 10px;
@@ -24,26 +26,44 @@
             background-color: #f9f9f9;
             white-space: pre-wrap;
         }
+
+        .highlight {
+            background-color: yellow;
+        }
+
         .panel h1, .panel h2, .panel h3, .panel h4, .panel h5, .panel h6 {
             margin-top: 0;
         }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-container input {
+            margin-right: 10px;
+        }
     </style>
 </head>
-<body><div style="text-align: center">
-<h1>꼭 제거 된 텍스트를 다시 한번 확인 해 주세요</h1>
-<div class="container">
-    <h3>기존 마크다운 텍스트</h3>
-    <div class="panel" id="markdown-panel" th:text="${markdownText}">
-        <!-- 여기에 마크다운 텍스트가 들어갑니다 -->
-    </div>
-    <h3> 다운 제거 된 텍스트</h3>
-    <div class="panel" id="plain-text-panel" th:text="${plainText}">
-        <!-- 여기에 마크다운이 제거된 텍스트가 들어갑니다 -->
+<body>
+<div style="text-align: center">
+    <h1>꼭 제거 된 텍스트를 다시 한번 확인 해 주세요</h1>
+    <div class="container">
+        <div>
+            <h3>기존 마크다운 텍스트</h3>
+            <div class="panel" id="markdown-panel" th:text="${markdownText}">
+                <!-- 여기에 마크다운 텍스트가 들어갑니다 -->
+            </div>
+        </div>
+        <div>
+            <h3>변환된 텍스트</h3>
+            <div class="panel" id="plain-text-panel" th:text="${plainText}">
+                <!-- 여기에 변환된 텍스트가 들어갑니다 -->
+            </div>
+        </div>
     </div>
     <button onclick="copyContent()">복사</button>
-
-</div>
-<a th:href="@{/}">되 돌아가기</a>
+    <a th:href="@{/}">되 돌아가기</a>
 </div>
 </body>
 <script>
@@ -66,5 +86,43 @@
         // 복사 완료 메시지를 출력합니다.
         alert('내용이 복사되었습니다.');
     }
+
+    function highlightDifferences(text1, text2) {
+        const text1Lines = text1.split('\n');
+        const text2Lines = text2.split('\n');
+        let highlightedText1 = '';
+        let modifiedText2 = '';
+
+        text2Lines.forEach((line, index) => {
+            let checkboxHtml = `<div class="checkbox-container">
+                                    <input type="checkbox" disabled>
+                                    <div ${line.includes(index) ? 'class="highlight"' : ''}>${line}</div>
+                                </div>`;
+
+            modifiedText2 += checkboxHtml + '\n';
+        });
+
+        document.getElementById('plain-text-panel').innerHTML = modifiedText2;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const markdownText = document.getElementById('markdown-panel').innerText;
+        const plainText = document.getElementById('plain-text-panel').innerText;
+        const countedMap = /*[[${countedMap}]]*/ {};
+        console.log(countedMap);
+        let countCheckList = {};
+        // 링크드 해쉬맵의 키-값 쌍을 순회하며  표시
+        for (const [outerKey, innerMap] of Object.keys(countedMap)) {
+
+
+            // 내부 해쉬맵의 키-값 쌍을 순회하며표시
+            for (const [innerKey, value] of Object.keys(innerMap)) {
+                countCheckList = value;
+                console.log(value);
+            }
+        }
+
+        highlightDifferences(markdownText, plainText);
+    });
 </script>
 </html>
